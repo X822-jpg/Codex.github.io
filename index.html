@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Codex | Build What's Next</title>
+  <style>
+    :root {
+      --ink: #172126;
+      --muted: #647277;
+      --paper: #f5f2eb;
+      --mint: #bce8d3;
+      --coral: #ff765f;
+      --line: rgba(23, 33, 38, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Georgia, 'Times New Roman', serif;
+      overflow-x: hidden;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .page::before,
+    .page::after {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      border-radius: 50%;
+      filter: blur(1px);
+      animation: drift 8s ease-in-out infinite alternate;
+    }
+
+    .page::before {
+      width: 34rem;
+      height: 34rem;
+      top: -17rem;
+      right: -8rem;
+      background: var(--mint);
+      opacity: .72;
+    }
+
+    .page::after {
+      width: 22rem;
+      height: 22rem;
+      bottom: -12rem;
+      left: -7rem;
+      background: #f6c9ad;
+      opacity: .6;
+      animation-delay: -3s;
+    }
+
+    header {
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 28px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      animation: rise .8s ease both;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: inherit;
+      text-decoration: none;
+      font: 700 1.25rem Arial, sans-serif;
+      letter-spacing: -.04em;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      color: var(--paper);
+      background: var(--ink);
+      border-radius: 50%;
+      font: 700 .8rem Arial, sans-serif;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font: 600 .75rem Arial, sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 48px));
+      margin: auto;
+      padding: 86px 0 100px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(280px, .92fr);
+      gap: 80px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 24px;
+      color: var(--coral);
+      font: 700 .72rem Arial, sans-serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      animation: rise .8s .1s ease both;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 34px;
+      height: 2px;
+      background: currentColor;
+    }
+
+    h1 {
+      max-width: 680px;
+      margin: 0;
+      font-size: clamp(4rem, 9vw, 8.5rem);
+      font-weight: 400;
+      line-height: .84;
+      letter-spacing: -.08em;
+      animation: rise .9s .18s ease both;
+    }
+
+    h1 em {
+      color: var(--coral);
+      font-style: italic;
+    }
+
+    .intro {
+      max-width: 440px;
+      margin: 34px 0 32px;
+      color: var(--muted);
+      font: 1.05rem/1.65 Arial, sans-serif;
+      animation: rise .9s .3s ease both;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      animation: rise .9s .42s ease both;
+    }
+
+    .get-button {
+      border: 0;
+      padding: 16px 24px;
+      color: var(--paper);
+      background: var(--ink);
+      border-radius: 999px;
+      cursor: pointer;
+      font: 700 .8rem Arial, sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .get-button:hover,
+    .get-button:focus-visible {
+      background: var(--coral);
+      transform: translateY(-3px);
+      outline: none;
+    }
+
+    .status {
+      min-height: 1.2em;
+      color: var(--muted);
+      font: .8rem Arial, sans-serif;
+    }
+
+    .orbit {
+      min-height: 410px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      animation: rise 1s .25s ease both;
+    }
+
+    .orbit::before,
+    .orbit::after {
+      content: '';
+      position: absolute;
+      width: min(30vw, 320px);
+      aspect-ratio: 1;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      transform: rotate(-28deg) scaleY(.42);
+    }
+
+    .orbit::after { transform: rotate(62deg) scaleY(.42); }
+
+    .core {
+      width: min(54vw, 230px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      color: var(--paper);
+      background: var(--ink);
+      border-radius: 44% 56% 55% 45% / 52% 42% 58% 48%;
+      box-shadow: 14px 18px 0 rgba(255, 118, 95, .78);
+      animation: morph 7s ease-in-out infinite;
+    }
+
+    .core span {
+      font-size: clamp(2.7rem, 7vw, 5rem);
+      letter-spacing: -.09em;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    .caption {
+      position: absolute;
+      right: 2%;
+      bottom: 7%;
+      padding: 10px 14px;
+      color: var(--ink);
+      background: var(--mint);
+      font: 700 .68rem Arial, sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transform: rotate(5deg);
+    }
+
+    footer {
+      width: min(1120px, calc(100% - 48px));
+      margin: auto auto 0;
+      padding: 20px 0 28px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font: .72rem Arial, sans-serif;
+      letter-spacing: .05em;
+    }
+
+    @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes drift { from { transform: translate(0, 0) rotate(0); } to { transform: translate(-24px, 18px) rotate(18deg); } }
+    @keyframes morph { 0%, 100% { border-radius: 44% 56% 55% 45% / 52% 42% 58% 48%; } 50% { border-radius: 58% 42% 43% 57% / 42% 56% 44% 58%; transform: rotate(6deg) scale(1.04); } }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+    @media (max-width: 720px) {
+      header, main, footer { width: min(100% - 32px, 560px); }
+      header { padding: 20px 0; }
+      main { display: block; padding: 70px 0 50px; }
+      h1 { font-size: clamp(4.2rem, 20vw, 7rem); }
+      .orbit { min-height: 320px; margin-top: 38px; }
+      .orbit::before, .orbit::after { width: 280px; }
+      .core { width: 190px; }
+    }
+
+    /* Focus the page on the single action. */
+    body {
+      color: #ffffff;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(112, 39, 190, .72) 0%, rgba(49, 15, 92, .48) 28%, rgba(8, 3, 15, .9) 62%, #000000 100%),
+        #000000;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .page::before,
+    .page::after,
+    header,
+    .eyebrow,
+    .intro,
+    .orbit,
+    footer {
+      display: none;
+    }
+
+    main {
+      width: 100%;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 34px;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(4.5rem, 17vw, 12rem);
+      font-weight: 800;
+      line-height: .8;
+      letter-spacing: -.09em;
+      animation: codex-reveal 1.2s cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    h1 em { color: #ffffff; font-style: normal; }
+
+    .actions {
+      justify-content: center;
+      animation: codex-reveal 1.2s .35s cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    .get-button {
+      min-width: 130px;
+      padding: 15px 28px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #9b5cff 0%, #3b176d 48%, #000000 100%);
+      border: 1px solid rgba(196, 153, 255, .7);
+      border-radius: 4px;
+      font-size: .78rem;
+      box-shadow: 0 0 28px rgba(124, 60, 220, .28);
+      transition: background .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+
+    .get-button:hover,
+    .get-button:focus-visible {
+      color: #ffffff;
+      background: linear-gradient(135deg, #b979ff 0%, #4b2184 48%, #050505 100%);
+      box-shadow: 0 0 34px rgba(155, 92, 255, .5);
+      transform: translateY(-4px);
+    }
+
+    .status { color: #ffffff; }
+
+    .result {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: min(900px, calc(100% - 32px));
+      text-align: center;
+      opacity: 0;
+      transform: translate(-50%, calc(-50% + 28px)) scale(.96);
+      pointer-events: none;
+    }
+
+    .result h2 {
+      margin: 0 0 26px;
+      color: #c99aff;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 400;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .fixed-text {
+      min-height: 80px;
+      padding: 14px;
+      color: #ffffff;
+      font-size: clamp(.7rem, 3vw, 2.4rem);
+      line-height: 1.15;
+      letter-spacing: -.03em;
+      white-space: nowrap;
+    }
+
+    main.is-open h1,
+    main.is-open .actions {
+      animation: disappear .7s cubic-bezier(.7, 0, .84, 0) forwards;
+      pointer-events: none;
+    }
+
+    main.is-open .result {
+      animation: appear .9s .55s cubic-bezier(.16, 1, .3, 1) forwards;
+      pointer-events: auto;
+    }
+
+    @keyframes disappear {
+      to { opacity: 0; transform: translateY(-35px) scale(.8); filter: blur(10px); }
+    }
+
+    @keyframes appear {
+      to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    @keyframes codex-reveal {
+      from { opacity: 0; transform: translateY(34px); clip-path: inset(0 0 100% 0); }
+      to { opacity: 1; transform: translateY(0); clip-path: inset(0 0 0 0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <a class="brand" href="#top" aria-label="Codex home"><span class="brand-mark">C</span> codex</a>
+      <nav><a href="#about">A new way to make</a></nav>
+    </header>
+
+    <main id="top">
+      <section id="about">
+        <p class="eyebrow">Ideas in motion</p>
+        <h1>Codex</h1>
+        <p class="intro">Codex is a quiet space for turning curious thoughts into clear, useful things. Start with a spark. Build from there.</p>
+        <div class="actions">
+          <button class="get-button" type="button" id="getButton">Get</button>
+          <span class="status" id="status" aria-live="polite"></span>
+        </div>
+        <div class="result" aria-live="polite">
+          <h2>Version V1</h2>
+          <div class="fixed-text">requier(114107000018029).Alpha("ur name")</div>
+        </div>
+      </section>
+
+      <div class="orbit" aria-hidden="true">
+        <div class="core"><span>Cx</span></div>
+        <span class="caption">create freely</span>
+      </div>
+    </main>
+
+    <footer>© 2026 Codex · Built for the next idea</footer>
+  </div>
+
+  <script>
+    const getButton = document.getElementById('getButton');
+    const main = document.querySelector('main');
+
+    getButton.addEventListener('click', () => {
+      main.classList.add('is-open');
+    });
+  </script>
+</body>
+</html>
